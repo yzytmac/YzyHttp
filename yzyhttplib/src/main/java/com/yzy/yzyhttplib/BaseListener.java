@@ -16,13 +16,8 @@ public class BaseListener<M> {
     }
 
     void onSuccess(InputStream is) {
-        M vM = null;
-
-
-        // TODO: 2017/12/16 把is转换成m的过程
-
-
-        mHttpListener.onSuccess(vM);
+        Response<M> vResponse = inputStreamToObj(is);
+        mHttpListener.onSuccess(vResponse);
     }
 
     void onFail(int code, String msg) {
@@ -43,5 +38,12 @@ public class BaseListener<M> {
             return "";
         }
         return sb.toString();
+    }
+
+    private Response<M> inputStreamToObj(InputStream pInputStream){
+        String json = inputStreamToString(pInputStream);
+        Gson vGson = new Gson();
+        Response vResponse = vGson.fromJson(json, Response.class);
+        return vResponse;
     }
 }

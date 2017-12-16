@@ -5,6 +5,6 @@ package com.yzy.yzyhttplib;
  */
 
 public interface IHttpListener<M> {
-    void onSuccess(M pM);
+    void onSuccess(Response<M> pResponse);
     void onFail(int code,String msg);
 }
