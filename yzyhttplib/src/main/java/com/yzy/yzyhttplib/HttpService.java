@@ -1,5 +1,7 @@
 package com.yzy.yzyhttplib;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -73,7 +75,7 @@ public class HttpService {
             }
             mBaseListener.onFail(vCode, "");
         } catch (IOException pE) {
-            pE.printStackTrace();
+            Log.e("yzy", "excute: " + pE.toString());
             mBaseListener.onFail(vCode, pE.toString());
         } finally {
             if (is != null) {

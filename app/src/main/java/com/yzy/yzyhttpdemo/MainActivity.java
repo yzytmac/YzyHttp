@@ -3,6 +3,7 @@ package com.yzy.yzyhttpdemo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.yzy.yzyhttplib.IHttpListener;
 import com.yzy.yzyhttplib.Response;
@@ -15,7 +16,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String urlString = "";
+
+    }
+
+    public void onClick(View pView){
+        String urlString = "https://yzyblog.wilddogio.com/";
         YzyHttpClient.request(urlString, null, new IHttpListener<TestEntity>() {
             @Override
             public void onSuccess(Response<TestEntity> pResponse) {
