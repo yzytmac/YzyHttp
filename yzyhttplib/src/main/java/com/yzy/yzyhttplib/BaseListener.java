@@ -1,5 +1,7 @@
 package com.yzy.yzyhttplib;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import java.io.InputStream;
@@ -42,6 +44,7 @@ public class BaseListener<M> {
 
     private Response<M> inputStreamToObj(InputStream pInputStream){
         String json = inputStreamToString(pInputStream);
+        Log.e("yzy", "json: " + json);
         Gson vGson = new Gson();
         Response vResponse = vGson.fromJson(json, Response.class);
         return vResponse;

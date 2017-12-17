@@ -1,5 +1,7 @@
 package com.yzy.yzyhttplib;
 
+import java.util.ArrayList;
+
 /**
  * Created by yzy on 2017/12/16.
  */
@@ -7,6 +9,6 @@ package com.yzy.yzyhttplib;
 public class Response<M> {
     public int code;
     public String message;
-    public M[] result;
+    public ArrayList<M> result;
 
 }

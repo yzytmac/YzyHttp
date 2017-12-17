@@ -10,6 +10,8 @@ import com.yzy.yzyhttplib.Response;
 import com.yzy.yzyhttplib.TestEntity;
 import com.yzy.yzyhttplib.YzyHttpClient;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -26,9 +28,16 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(Response<TestEntity> pResponse) {
                 int vCode = pResponse.code;
                 String vMessage = pResponse.message;
-//                TestEntity[] vResult = pResponse.result;
+                ArrayList<TestEntity> vResult = pResponse.result;
+
                 Log.e("yzy", "vCode: " + vCode);
                 Log.e("yzy", "vMessage: " + vMessage);
+
+                for (TestEntity vEntity : vResult) {
+                    Log.e("yzy", "onSuccess: " + vEntity.id);
+                    Log.e("yzy", "imei: " + vEntity.imei);
+                    Log.e("yzy", "userId: " + vEntity.userId);
+                }
             }
 
             @Override
