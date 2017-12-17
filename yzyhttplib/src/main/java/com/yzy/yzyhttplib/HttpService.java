@@ -72,8 +72,9 @@ public class HttpService {
                 } else {
                     mBaseListener.onFail(vCode, "");
                 }
+            }else {
+                mBaseListener.onFail(vCode, "");
             }
-            mBaseListener.onFail(vCode, "");
         } catch (IOException pE) {
             Log.e("yzy", "excute: " + pE.toString());
             mBaseListener.onFail(vCode, pE.toString());

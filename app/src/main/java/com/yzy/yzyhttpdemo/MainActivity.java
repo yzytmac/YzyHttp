@@ -20,13 +20,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View pView){
-        String urlString = "https://yzyblog.wilddogio.com/";
+        String urlString = "https://gitee.com/yzytmac/resource/raw/master/test.json";
         YzyHttpClient.request(urlString, null, new IHttpListener<TestEntity>() {
             @Override
             public void onSuccess(Response<TestEntity> pResponse) {
                 int vCode = pResponse.code;
                 String vMessage = pResponse.message;
-                TestEntity[] vResult = pResponse.result;
+//                TestEntity[] vResult = pResponse.result;
                 Log.e("yzy", "vCode: " + vCode);
                 Log.e("yzy", "vMessage: " + vMessage);
             }
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFail(int code, String msg) {
                 Log.e("yzy", "onFail: " + code);
+                Log.e("yzy", "msg: " + msg);
             }
         });
     }
