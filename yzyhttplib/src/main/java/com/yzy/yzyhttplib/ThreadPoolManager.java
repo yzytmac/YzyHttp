@@ -65,7 +65,7 @@ public class ThreadPoolManager {
     };
 
     /***************************************暴露给外部调用的api**********************************************/
-    public <T> void excute(FutureTask<T> pTask) {
+    public void excute(FutureTask pTask) {
         try {
             if(pTask!=null){
                 mRequestQueue.put(pTask);

@@ -1,6 +1,7 @@
 package com.yzy.yzyhttpdemo;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,10 +25,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View pView){
+        for (int i = 0; i < 20; i++) {
+            request();
+            SystemClock.sleep(500);
+        }
+    }
+
+    private void request() {
         String urlString = "https://gitee.com/yzytmac/resource/raw/master/test.json";
         Type vType = new TypeToken<Response<TestEntity>>() {
         }.getType();
-        YzyHttpClient.request(urlString, null, vType,new IHttpListener<TestEntity>() {
+        YzyHttpClient.request(urlString, null, vType,new IHttpListener<Response<TestEntity>>() {
             @Override
             public void onSuccess(Response<TestEntity> pResponse) {
                 int vCode = pResponse.code;

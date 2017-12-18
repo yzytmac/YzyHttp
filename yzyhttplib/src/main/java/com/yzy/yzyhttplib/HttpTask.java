@@ -12,7 +12,7 @@ public  class HttpTask implements Runnable{
     private Type mType;
 
 
-    public <M> HttpTask(String pUrlString, HashMap<String,String> pArgs, Type pType, IHttpListener<M> pListener) {
+    public <R> HttpTask(String pUrlString, HashMap<String,String> pArgs, Type pType, IHttpListener<R> pListener) {
         mHttpService = new HttpService();
         mHttpService.setUrl(pUrlString);
         mHttpService.setRequestData(pArgs);

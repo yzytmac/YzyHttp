@@ -37,7 +37,7 @@ public class HttpService {
         mArgs = pArgs;
     }
 
-    public <M> void setHttpListener(IHttpListener<M> pListener) {
+    public <R> void setHttpListener(IHttpListener<R> pListener) {
         mHttpListener = pListener;
     }
 

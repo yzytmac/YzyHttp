@@ -15,11 +15,11 @@ public class YzyHttpClient {
      * @param args 请求参数
      * @param pType 返回值数据实体类的Type
      * @param listener 网络请求回调
-     * @param <M> 泛型
+     * @param <R> 泛型
      */
-    public static <M> void request(String urlString, HashMap<String,String> args, Type pType, IHttpListener<M> listener){
+    public static <R> void request(String urlString, HashMap<String,String> args, Type pType, IHttpListener<R> listener){
         HttpTask vHttpTask = new HttpTask(urlString, args, pType,listener);
-        ThreadPoolManager.getInstance().excute(new FutureTask<Object>(vHttpTask,null));
+        ThreadPoolManager.getInstance().excute(new FutureTask(vHttpTask,null));
 
     }
 }

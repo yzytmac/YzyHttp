@@ -11,17 +11,17 @@ import java.lang.reflect.Type;
  * Created by yzy on 2017/12/16.
  */
 
-public class BaseListener<M> {
-    private IHttpListener<M> mHttpListener;
+public class BaseListener<R> {
+    private IHttpListener<R> mHttpListener;
     private Type mType;
 
-    public BaseListener(IHttpListener<M> pHttpListener,Type pType) {
+    public BaseListener(IHttpListener<R> pHttpListener, Type pType) {
         mHttpListener = pHttpListener;
         mType = pType;
     }
 
     void onSuccess(InputStream is) {
-        Response<M> vResponse = inputStreamToObj(is);
+        R vResponse = inputStreamToObj(is);
         mHttpListener.onSuccess(vResponse);
     }
 
@@ -45,11 +45,11 @@ public class BaseListener<M> {
         return sb.toString();
     }
 
-    private Response<M> inputStreamToObj(InputStream pInputStream){
+    private R inputStreamToObj(InputStream pInputStream){
         String json = inputStreamToString(pInputStream);
         Log.e("yzy", "json: " + json);
         Gson vGson = new Gson();
-        Response<M> vResponse = vGson.fromJson(json, mType);
+        R vResponse = vGson.fromJson(json, mType);
         return vResponse;
     }
 }
