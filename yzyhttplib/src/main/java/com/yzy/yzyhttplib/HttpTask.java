@@ -12,15 +12,19 @@ public  class HttpTask implements Runnable{
     private Type mType;
 
 
-    public <R> HttpTask(String pUrlString, HashMap<String,String> pArgs, Type pType, IHttpListener<R> pListener) {
+    public <R> HttpTask(String pUrlString, HashMap<String,String> pParams, Type pType, IHttpListener<R> pListener) {
         mHttpService = new HttpService();
         mHttpService.setUrl(pUrlString);
-        mHttpService.setRequestData(pArgs);
+        mHttpService.setRequestParams(pParams);
         mHttpService.setHttpListener(pListener);
         mType = pType;
     }
     public void setRequestMethod(String pMethod){
         mHttpService.setRequestMethod(pMethod);
+    }
+
+    public void setHeards(HashMap<String,String> pHeards){
+        mHttpService.setRequestHeards(pHeards);
     }
 
     @Override

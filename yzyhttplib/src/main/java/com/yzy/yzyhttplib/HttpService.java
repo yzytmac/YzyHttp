@@ -22,8 +22,9 @@ public class HttpService {
     protected IHttpListener mHttpListener = null;
     protected HttpURLConnection mURLConnection = null;
     protected URL mURL = null;
-    protected HashMap<String, String> mArgs = null;//请求参数
+    protected HashMap<String, String> mHeards = null;//请求参数
     protected String questMethod = "GET";
+    private String mParams;
 
     public void setUrl(String pUrlString) {
         try {
@@ -33,16 +34,25 @@ public class HttpService {
         }
     }
 
-    public void setRequestData(HashMap<String, String> pArgs) {
-        mArgs = pArgs;
+    public void setRequestHeards(HashMap<String, String> pHeards) {
+        mHeards = pHeards;
     }
 
     public <R> void setHttpListener(IHttpListener<R> pListener) {
         mHttpListener = pListener;
     }
 
-    public void setRequestMethod(String me) {
-        questMethod = me;
+    public void setRequestParams(HashMap<String, String> pParams) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("?");
+        for (Map.Entry<String, String> vEntry : pParams.entrySet()) {
+            sb.append(vEntry.getKey()+"="+vEntry.getValue()+"&");
+        }
+        mParams = sb.toString();
+    }
+
+    public void setRequestMethod(String pMethod) {
+        questMethod = pMethod;
     }
 
 
@@ -50,14 +60,15 @@ public class HttpService {
      * 子线程中执行
      */
     public void excute(Type pType) {
-        mBaseCallBack = new BaseCallBack(mHttpListener,pType);
+        mBaseCallBack = new BaseCallBack(mHttpListener, pType);
         int vCode = -1;
         InputStream is = null;
         try {
             mURLConnection = (HttpURLConnection) mURL.openConnection();
             mURLConnection.setRequestMethod(questMethod);
-            if (mArgs != null) {
-                Set<Map.Entry<String, String>> vEntries = mArgs.entrySet();
+            mURLConnection.setConnectTimeout(20000);
+            if (mHeards != null) {
+                Set<Map.Entry<String, String>> vEntries = mHeards.entrySet();
                 if (vEntries != null) {
                     for (Map.Entry<String, String> vEntry : vEntries) {
                         mURLConnection.setRequestProperty(vEntry.getKey(), vEntry.getValue());
@@ -73,8 +84,8 @@ public class HttpService {
                 } else {
                     mBaseCallBack.onFail(vCode, "InputStream is Null");
                 }
-            }else {
-                mBaseCallBack.onFail(vCode, "Error code is "+vCode);
+            } else {
+                mBaseCallBack.onFail(vCode, "Error code is " + vCode);
             }
         } catch (IOException pE) {
             Log.e("yzy", "excute: " + pE.toString());
