@@ -8,8 +8,6 @@ import android.view.View;
 
 import com.google.gson.reflect.TypeToken;
 import com.yzy.yzyhttplib.IHttpListener;
-import com.yzy.yzyhttplib.Response;
-import com.yzy.yzyhttplib.TestEntity;
 import com.yzy.yzyhttplib.YzyHttpClient;
 
 import java.lang.reflect.Type;
@@ -25,8 +23,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View pView){
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             request();
+            SystemClock.sleep(500);
+            request2();
             SystemClock.sleep(500);
         }
     }
@@ -50,6 +50,23 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("yzy", "imei: " + vEntity.imei);
                     Log.e("yzy", "userId: " + vEntity.userId);
                 }
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                Log.e("yzy", "onFail: " + code);
+                Log.e("yzy", "msg: " + msg);
+            }
+        });
+    }
+    private void request2() {
+        String urlString = "https://gitee.com/yzytmac/resource/raw/master/test2.json";
+        Type vType = new TypeToken<Userbean>() {
+        }.getType();
+        YzyHttpClient.request(urlString, null, vType,new IHttpListener<Userbean>() {
+            @Override
+            public void onSuccess(Userbean pUserbean) {
+                Log.e("yzy", "onSuccess: " + pUserbean);
             }
 
             @Override
