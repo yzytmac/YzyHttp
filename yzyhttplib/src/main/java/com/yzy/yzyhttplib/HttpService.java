@@ -18,7 +18,7 @@ import java.util.Set;
 
 public class HttpService {
 
-    protected BaseListener mBaseListener = null;
+    protected BaseCallBack mBaseCallBack = null;
     protected IHttpListener mHttpListener = null;
     protected HttpURLConnection mURLConnection = null;
     protected URL mURL = null;
@@ -50,7 +50,7 @@ public class HttpService {
      * 子线程中执行
      */
     public void excute(Type pType) {
-        mBaseListener = new BaseListener(mHttpListener,pType);
+        mBaseCallBack = new BaseCallBack(mHttpListener,pType);
         int vCode = -1;
         InputStream is = null;
         try {
@@ -69,16 +69,16 @@ public class HttpService {
             if (vCode == 200) {
                 is = mURLConnection.getInputStream();
                 if (is != null) {
-                    mBaseListener.onSuccess(is);
+                    mBaseCallBack.onSuccess(is);
                 } else {
-                    mBaseListener.onFail(vCode, "");
+                    mBaseCallBack.onFail(vCode, "InputStream is Null");
                 }
             }else {
-                mBaseListener.onFail(vCode, "");
+                mBaseCallBack.onFail(vCode, "Error code is "+vCode);
             }
         } catch (IOException pE) {
             Log.e("yzy", "excute: " + pE.toString());
-            mBaseListener.onFail(vCode, pE.toString());
+            mBaseCallBack.onFail(vCode, pE.toString());
         } finally {
             if (is != null) {
                 try {
