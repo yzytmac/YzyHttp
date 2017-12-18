@@ -49,7 +49,7 @@ public class BaseListener<M> {
         String json = inputStreamToString(pInputStream);
         Log.e("yzy", "json: " + json);
         Gson vGson = new Gson();
-        Response vResponse = vGson.fromJson(json, mType);
+        Response<M> vResponse = vGson.fromJson(json, mType);
         return vResponse;
     }
 }
