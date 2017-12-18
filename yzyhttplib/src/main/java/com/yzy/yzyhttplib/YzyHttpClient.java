@@ -1,5 +1,6 @@
 package com.yzy.yzyhttplib;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.concurrent.FutureTask;
 
@@ -8,8 +9,8 @@ import java.util.concurrent.FutureTask;
  */
 
 public class YzyHttpClient {
-    public static <M> void request(String urlString,HashMap<String,String> args,IHttpListener<M> listener){
-        HttpTask vHttpTask = new HttpTask(urlString, args, listener);
+    public static <M> void request(String urlString, HashMap<String,String> args, Type pType, IHttpListener<M> listener){
+        HttpTask vHttpTask = new HttpTask(urlString, args, pType,listener);
         ThreadPoolManager.getInstance().excute(new FutureTask<Object>(vHttpTask,null));
 
     }

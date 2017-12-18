@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,8 +49,8 @@ public class HttpService {
     /**
      * 子线程中执行
      */
-    public void excute() {
-        mBaseListener = new BaseListener(mHttpListener);
+    public void excute(Type pType) {
+        mBaseListener = new BaseListener(mHttpListener,pType);
         int vCode = -1;
         InputStream is = null;
         try {

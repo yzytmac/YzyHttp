@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.InputStream;
+import java.lang.reflect.Type;
 
 /**
  * Created by yzy on 2017/12/16.
@@ -12,9 +13,11 @@ import java.io.InputStream;
 
 public class BaseListener<M> {
     private IHttpListener<M> mHttpListener;
+    private Type mType;
 
-    public BaseListener(IHttpListener<M> pHttpListener) {
+    public BaseListener(IHttpListener<M> pHttpListener,Type pType) {
         mHttpListener = pHttpListener;
+        mType = pType;
     }
 
     void onSuccess(InputStream is) {
@@ -46,7 +49,7 @@ public class BaseListener<M> {
         String json = inputStreamToString(pInputStream);
         Log.e("yzy", "json: " + json);
         Gson vGson = new Gson();
-        Response vResponse = vGson.fromJson(json, Response.class);
+        Response vResponse = vGson.fromJson(json, mType);
         return vResponse;
     }
 }

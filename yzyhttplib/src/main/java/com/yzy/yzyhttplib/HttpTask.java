@@ -1,5 +1,6 @@
 package com.yzy.yzyhttplib;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 /**
@@ -8,13 +9,15 @@ import java.util.HashMap;
 
 public  class HttpTask implements Runnable{
     private HttpService mHttpService;
+    private Type mType;
 
 
-    public <M> HttpTask(String pUrlString, HashMap<String,String> pArgs, IHttpListener<M> pListener) {
+    public <M> HttpTask(String pUrlString, HashMap<String,String> pArgs, Type pType, IHttpListener<M> pListener) {
         mHttpService = new HttpService();
         mHttpService.setUrl(pUrlString);
         mHttpService.setRequestData(pArgs);
         mHttpService.setHttpListener(pListener);
+        mType = pType;
     }
     public void setRequestMethod(String pMethod){
         mHttpService.setRequestMethod(pMethod);
@@ -22,6 +25,6 @@ public  class HttpTask implements Runnable{
 
     @Override
     public void run() {
-        mHttpService.excute();
+        mHttpService.excute(mType);
     }
 }

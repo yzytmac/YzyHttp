@@ -5,11 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.google.gson.reflect.TypeToken;
 import com.yzy.yzyhttplib.IHttpListener;
 import com.yzy.yzyhttplib.Response;
 import com.yzy.yzyhttplib.TestEntity;
 import com.yzy.yzyhttplib.YzyHttpClient;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View pView){
         String urlString = "https://gitee.com/yzytmac/resource/raw/master/test.json";
-        YzyHttpClient.request(urlString, null, new IHttpListener<TestEntity>() {
+        Type vType = new TypeToken<Response<TestEntity>>() {
+        }.getType();
+        YzyHttpClient.request(urlString, null, vType,new IHttpListener<TestEntity>() {
             @Override
             public void onSuccess(Response<TestEntity> pResponse) {
                 int vCode = pResponse.code;
