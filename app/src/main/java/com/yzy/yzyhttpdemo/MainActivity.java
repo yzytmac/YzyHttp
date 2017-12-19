@@ -55,15 +55,19 @@ public class MainActivity extends AppCompatActivity {
     private void request2() {
         String urlString = "https://gitee.com/yzytmac/resource/raw/master/test";
         Type vType = new TypeToken<Userbean>() {}.getType();
-        new YzyHttpClient.RequestBuilder<>(urlString, vType, new IHttpListener<Userbean>() {
+        IHttpListener<Userbean> vListener = new IHttpListener<Userbean>() {
             @Override
-            public void onSuccess(Userbean pUserbean) {
-                Log.e("yzy", "onSuccess: " + pUserbean);
+            public void onSuccess(Userbean pResponse) {
+
             }
 
             @Override
             public void onFail(int code, String msg) {
+
             }
-        }).request();
+        };
+        new YzyHttpClient.RequestBuilder<>(urlString, vType, vListener)
+
+                .request();
     }
 }

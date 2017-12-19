@@ -22,7 +22,7 @@ public class YzyHttpClient {
         private String method="GET";
         private HashMap<String, String> params=new HashMap<>();
         private HashMap<String, String> heards=new HashMap<>();
-        public int timeOut = 20000;
+        private int timeOut = 20000;
 
         /**
          * 发起网络请求
