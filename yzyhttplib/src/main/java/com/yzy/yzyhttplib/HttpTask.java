@@ -7,28 +7,31 @@ import java.util.HashMap;
  * Created by yzy on 2017/12/16.
  */
 
-public  class HttpTask implements Runnable{
+public class HttpTask implements Runnable {
     private HttpService mHttpService;
     private Type mType;
 
 
-    public <R> HttpTask(String pUrlString, HashMap<String,String> pParams, Type pType, IHttpListener<R> pListener) {
+    public HttpTask(String url, Type pType,
+                     IHttpListener<R> pListener,
+                     HashMap<String, String> pHeards,
+                     HashMap<String, String> pParams,
+                     String pMethod,
+                     int pTimeOut) {
         mHttpService = new HttpService();
-        mHttpService.setUrl(pUrlString);
+        mHttpService.setUrl(url);
         mHttpService.setRequestParams(pParams);
         mHttpService.setHttpListener(pListener);
+        mHttpService.setRequestMethod(pMethod);
+        mHttpService.setRequestHeards(pHeards);
+        mHttpService.setRequestTimeout(pTimeOut);
         mType = pType;
     }
-    public void setRequestMethod(String pMethod){
-        mHttpService.setRequestMethod(pMethod);
-    }
 
-    public void setHeards(HashMap<String,String> pHeards){
-        mHttpService.setRequestHeards(pHeards);
-    }
 
     @Override
     public void run() {
         mHttpService.excute(mType);
     }
+
 }

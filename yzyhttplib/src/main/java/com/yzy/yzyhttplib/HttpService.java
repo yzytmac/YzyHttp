@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -21,17 +22,13 @@ public class HttpService {
     protected BaseCallBack mBaseCallBack = null;
     protected IHttpListener mHttpListener = null;
     protected HttpURLConnection mURLConnection = null;
-    protected URL mURL = null;
+    protected StringBuffer mURL = null;
     protected HashMap<String, String> mHeards = null;//请求参数
-    protected String questMethod = "GET";
     private String mParams;
+    private int mTimeout;
 
     public void setUrl(String pUrlString) {
-        try {
-            mURL = new URL(pUrlString);
-        } catch (MalformedURLException pE) {
-            pE.printStackTrace();
-        }
+        mURL = new StringBuffer(pUrlString);
     }
 
     public void setRequestHeards(HashMap<String, String> pHeards) {
@@ -43,16 +40,45 @@ public class HttpService {
     }
 
     public void setRequestParams(HashMap<String, String> pParams) {
+        if (pParams.size() == 0) {
+            mParams = "";
+            return;
+        }
         StringBuffer sb = new StringBuffer();
         sb.append("?");
         for (Map.Entry<String, String> vEntry : pParams.entrySet()) {
-            sb.append(vEntry.getKey()+"="+vEntry.getValue()+"&");
+            sb.append(vEntry.getKey() + "=" + vEntry.getValue() + "&");
         }
         mParams = sb.toString();
     }
 
     public void setRequestMethod(String pMethod) {
-        questMethod = pMethod;
+        try {
+            if ("GET".equalsIgnoreCase(pMethod)) {
+                mURL.append(mParams);
+                mURLConnection = (HttpURLConnection) new URL(mURL.toString()).openConnection();
+                mURLConnection.setRequestMethod(pMethod);
+                mURLConnection.setConnectTimeout(mTimeout);
+                mURLConnection.setDoInput(true);
+                mURLConnection.setDoOutput(false);
+
+            } else if ("POST".equalsIgnoreCase(pMethod)) {
+                mURLConnection = (HttpURLConnection) new URL(mURL.toString()).openConnection();
+                mURLConnection.setRequestMethod(pMethod);
+                mURLConnection.setDoInput(true);
+                mURLConnection.setDoOutput(true);
+                mURLConnection.setConnectTimeout(mTimeout);
+                OutputStream os = mURLConnection.getOutputStream();
+                os.write(mParams.getBytes());
+                os.close();
+            }
+        } catch (IOException pE) {
+            pE.printStackTrace();
+        }
+    }
+
+    public void setRequestTimeout(int pTimeout){
+        mTimeout=pTimeout;
     }
 
 
@@ -64,9 +90,6 @@ public class HttpService {
         int vCode = -1;
         InputStream is = null;
         try {
-            mURLConnection = (HttpURLConnection) mURL.openConnection();
-            mURLConnection.setRequestMethod(questMethod);
-            mURLConnection.setConnectTimeout(20000);
             if (mHeards != null) {
                 Set<Map.Entry<String, String>> vEntries = mHeards.entrySet();
                 if (vEntries != null) {
@@ -75,6 +98,7 @@ public class HttpService {
                     }
                 }
             }
+
             mURLConnection.connect();
             vCode = mURLConnection.getResponseCode();
             if (vCode == 200) {
@@ -100,4 +124,5 @@ public class HttpService {
             }
         }
     }
+
 }

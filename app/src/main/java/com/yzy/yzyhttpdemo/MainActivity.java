@@ -19,23 +19,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
     }
 
-    public void onClick(View pView){
-        for (int i = 0; i < 10; i++) {
-            request();
-            SystemClock.sleep(500);
-            request2();
-            SystemClock.sleep(500);
-        }
+    public void onClick(View pView) {
+        request();
+        request2();
     }
 
     private void request() {
         String urlString = "https://gitee.com/yzytmac/resource/raw/master/test.json";
-        Type vType = new TypeToken<Response<TestEntity>>() {
-        }.getType();
-        YzyHttpClient.request(urlString, null, vType,new IHttpListener<Response<TestEntity>>() {
+        Type vType = new TypeToken<Response<TestEntity>>() {}.getType();
+        new YzyHttpClient.RequestBuilder<>(urlString, vType, new IHttpListener<Response<TestEntity>>() {
             @Override
             public void onSuccess(Response<TestEntity> pResponse) {
                 int vCode = pResponse.code;
@@ -54,16 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFail(int code, String msg) {
-                Log.e("yzy", "onFail: " + code);
-                Log.e("yzy", "msg: " + msg);
             }
-        });
+        }).request();
     }
+
     private void request2() {
-        String urlString = "https://gitee.com/yzytmac/resource/raw/master/test2.json";
-        Type vType = new TypeToken<Userbean>() {
-        }.getType();
-        YzyHttpClient.request(urlString, null, vType,new IHttpListener<Userbean>() {
+        String urlString = "https://gitee.com/yzytmac/resource/raw/master/test";
+        Type vType = new TypeToken<Userbean>() {}.getType();
+        new YzyHttpClient.RequestBuilder<>(urlString, vType, new IHttpListener<Userbean>() {
             @Override
             public void onSuccess(Userbean pUserbean) {
                 Log.e("yzy", "onSuccess: " + pUserbean);
@@ -71,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFail(int code, String msg) {
-                Log.e("yzy", "onFail: " + code);
-                Log.e("yzy", "msg: " + msg);
             }
-        });
+        }).request();
     }
 }
