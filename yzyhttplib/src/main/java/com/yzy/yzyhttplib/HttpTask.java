@@ -7,7 +7,7 @@ import java.util.HashMap;
  * Created by yzy on 2017/12/16.
  */
 
-public class HttpTask implements Runnable {
+public class HttpTask<R> implements Runnable {
     private HttpService mHttpService;
     private Type mType;
 
