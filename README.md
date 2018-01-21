@@ -1,6 +1,8 @@
 # YzyHttp
 手写网络访问框架  
 基于HttpUrlConnection封装。支持对泛型数据的json解析。支持多任务请求队列。  
+- 如果觉得有用，不吝啬在右上角给我一个Star。谢谢！！  
+![](https://raw.githubusercontent.com/yzytmac/yzytmac.github.io/master/images/star.png)  
 使用方式：  
 
         //url字符串
